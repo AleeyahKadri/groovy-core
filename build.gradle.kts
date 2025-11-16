@@ -93,6 +93,24 @@ tasks.register<Jar>("sourceJar") {
 }
 
 subprojects {
+    // Create deprecated configurations for backwards compatibility
+    configurations {
+        create("compile")
+        create("runtime")
+        create("testCompile")
+        create("testRuntime")
+        create("provided")
+    }
+    
+    // Wire them to modern configurations after evaluation
+    afterEvaluate {
+        configurations.getByName("compile").extendsFrom(configurations.getByName("implementation"))
+        configurations.getByName("runtime").extendsFrom(configurations.getByName("runtimeOnly"))
+        configurations.getByName("testCompile").extendsFrom(configurations.getByName("testImplementation"))
+        configurations.getByName("testRuntime").extendsFrom(configurations.getByName("testRuntimeOnly"))
+        configurations.getByName("provided").extendsFrom(configurations.getByName("compileOnly"))
+    }
+    
     tasks.register<Jar>("sourceJar") {
         archiveClassifier.set("sources")
         from(project.the<SourceSetContainer>()["main"].allSource)
@@ -333,7 +351,7 @@ tasks.named("processResources") {
                     "org/codehaus/groovy/tools/groovydoc/gstringTemplates/GroovyDocTemplateInfo.java"
                 )
             }
-            into(project.the<SourceSetContainer>()["main"].output.classesDirs.singleFile)
+            into(project.the<SourceSetContainer>()["main"].output.classesDirs.first())
         }
     }
 }
@@ -383,7 +401,7 @@ extra["modules"] = ::modules
 tasks.register("dgmConverter") {
     dependsOn("compileJava")
     description = "Generates DGM info file required for faster startup."
-    val classesDir = project.the<SourceSetContainer>()["main"].output.classesDirs.singleFile
+    val classesDir = project.the<SourceSetContainer>()["main"].output.classesDirs.first()
     val classpath = files(classesDir, configurations["compile"]).asPath
 
     doFirst {
@@ -430,7 +448,7 @@ tasks.register("bootstrapJar") {
         ant.withGroovyBuilder {
             "jar"(
                 "destfile" to archivePath,
-                "basedir" to file(project.the<SourceSetContainer>()["main"].output.classesDirs.singleFile)
+                "basedir" to file(project.the<SourceSetContainer>()["main"].output.classesDirs.first())
             )
         }
     }
