@@ -1,0 +1,6 @@
+dependencies {
+    compile(rootProject)
+    compile(project(":groovy-templates"))
+    testCompile(project(":groovy-test"))
+    compile("com.thoughtworks.qdox:qdox:${project.extra["qdoxVersion"]}")
+}

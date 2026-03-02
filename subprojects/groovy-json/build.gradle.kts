@@ -1,0 +1,4 @@
+dependencies {
+    compile(rootProject)
+    testCompile(project(":groovy-test"))
+}

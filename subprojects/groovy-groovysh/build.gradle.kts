@@ -1,0 +1,8 @@
+dependencies {
+    compile(rootProject)
+    compile(project(":groovy-console"))
+    testCompile(project(":groovy-test"))
+    compile("jline:jline:${project.extra["jlineVersion"]}") {
+        exclude(group = "junit", module = "junit")
+    }
+}
