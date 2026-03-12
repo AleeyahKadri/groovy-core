@@ -9,7 +9,7 @@ val scriptingCapable: () -> Boolean = {
 
 dependencies {
     if (!scriptingCapable()) {
-        add("compile", "org.livetribe:livetribe-jsr223:2.0.6") 
+        add("compileOnly", "org.livetribe:livetribe-jsr223:2.0.6") 
         // Note: 'provided' scope needs to be implemented if needed
     }
     add("compile", rootProject)
