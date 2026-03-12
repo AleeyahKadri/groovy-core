@@ -17,4 +17,4 @@
  *  under the License.
  */
 
-buildDir = 'target'
+layout.buildDirectory = file("target")

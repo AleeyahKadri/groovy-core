@@ -1,0 +1,3 @@
+dependencies {
+    add("compile", rootProject)
+}
