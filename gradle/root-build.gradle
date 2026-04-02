@@ -148,7 +148,6 @@ dependencies {
 
     tools("net.sourceforge.cobertura:cobertura:$coberturaVersion") {
         exclude(module: 'asm')
-        exclude(module: 'asm')
         exclude(module: 'ant')
     }
     tools "org.ow2.asm:asm-all:$asmVersion"
